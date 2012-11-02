@@ -21,10 +21,15 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
     InputStream inputStream;
     SerialPort serialPort1;
     Thread readThread;
+    LogWriter logWriter;
+    OutputStream outputStream;
+    boolean running = false;
+    long hzTime = 1000;
+    long waitTimer = System.currentTimeMillis();
 
-    public SerialRunner(String portNr, String baudNr) {
+    public SerialRunner(String portNr, String baudNr, LogWriter logwrite) {
         int baudInt = Integer.parseInt(baudNr);
-
+        logWriter = logwrite;
         //TODO: check baudInt for valid values
 
         System.out.println("Starting on port: "+portNr);
@@ -43,6 +48,7 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
 
         try {
             inputStream = serialPort1.getInputStream();
+            outputStream = serialPort1.getOutputStream();
         } catch (IOException e) {}
 
         try {
@@ -63,7 +69,7 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
         readThread.start();
     }
 
-    public void starta(String port, String baud) {
+/*    public void starta(String port, String baud) {
         try {
             SerialRunner reader = new SerialRunner(port,baud);
         }
@@ -71,13 +77,49 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
             System.out.println("msg1 - " + e);
      	}
     }
+ *
+ */
     public void run() {
         try {
-            Thread.sleep(100);
+            Thread.sleep(10);
+            while(running) {
+                Thread.yield();
+                if (System.currentTimeMillis()-waitTimer > hzTime) {
+                
+                    waitTimer = waitTimer+hzTime;
+                try {
+                    outputStream.write('a');
+                    //System.out.print(".");
+                    outputStream.flush();
+                } catch (IOException ex) {
+                    //Logger.getLogger(SerialRunner.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
+            }
             //System.out.println("debugrunning");
         } catch (InterruptedException e) {}
     }
-    public void serialEvent(SerialPortEvent event) {
+
+    public synchronized void serialEvent(SerialPortEvent oEvent) {
+		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+			try {
+				int available = inputStream.available();
+				byte chunk[] = new byte[available];
+				inputStream.read(chunk, 0, available);
+
+				// Displayed results are codepage dependent
+                                String data = ""+new String(chunk);
+                                logWriter.addLine(data);
+                                //System.out.println(data);
+				
+			} catch (Exception e) {
+				System.err.println(e.toString());
+			}
+		}
+		// Ignore all the other eventTypes, but you should consider the other ones.
+	}
+
+    public void serialEvent2(SerialPortEvent event) {
         switch(event.getEventType()) {
         case SerialPortEvent.BI:
         case SerialPortEvent.OE:
@@ -93,18 +135,22 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
             StringBuffer readBuffer = new StringBuffer();
             int c;
             try {
-                while ((c=inputStream.read()) != 10){
-                   if(c!=13) {
+                while ((c=inputStream.read()) != 10) {
+                   
                        readBuffer.append((char) c);
-                   }
+                   
                 }
                 try {
-                    System.out.println(readBuffer.toString());
+                    String data = ""+readBuffer.toString();
+                    logWriter.addLine(data);
+                    //System.out.println(data);
                 }
                 catch (IndexOutOfBoundsException f) {
                     System.out.println("Not good...");
                 }
-            } catch (IOException e) {}
+            } catch (IOException e) {
+                System.out.println("Not good 2...");
+            }
             break;
         }
     }
@@ -121,5 +167,10 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
         catch (NullPointerException e) {
                 System.out.println("ERROR: Stopping error.");
         }
+    }
+    public void updateHz(long in) {
+        
+        hzTime = 1000/in;
+        System.out.println("update time" + hzTime);
     }
 }

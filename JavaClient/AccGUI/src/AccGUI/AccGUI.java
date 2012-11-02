@@ -11,6 +11,7 @@
 package AccGUI;
 
 import gnu.io.CommPortIdentifier;
+import java.io.FileWriter;
 import java.util.Enumeration;
 import javax.swing.UIManager;
 /**
@@ -20,6 +21,8 @@ import javax.swing.UIManager;
 public class AccGUI extends javax.swing.JFrame {
 
     SerialRunner serialRunner;
+    LogWriter logWriter = new LogWriter(this);
+    
     /** Creates new form AccGUI */
     public AccGUI() {
         try {
@@ -52,7 +55,6 @@ public class AccGUI extends javax.swing.JFrame {
         connectButton = new javax.swing.JButton();
         comMeny = new javax.swing.JComboBox();
         scanButton = new javax.swing.JButton();
-        baudTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         disconnectButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -60,6 +62,10 @@ public class AccGUI extends javax.swing.JFrame {
         logTextfield = new javax.swing.JTextField();
         startLogButton = new javax.swing.JButton();
         stopLogButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        updateHzText = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        baudTextField2 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,8 +84,6 @@ public class AccGUI extends javax.swing.JFrame {
                 scanButtonActionPerformed(evt);
             }
         });
-
-        baudTextField.setText("9600");
 
         jLabel1.setText("Baud");
 
@@ -107,8 +111,26 @@ public class AccGUI extends javax.swing.JFrame {
         });
 
         startLogButton.setText("Start Logging");
+        startLogButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startLogButtonActionPerformed(evt);
+            }
+        });
 
         stopLogButton.setText("Stop Logging");
+        stopLogButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopLogButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Update frequency");
+
+        updateHzText.setText("20");
+
+        jLabel5.setText("Hz");
+
+        baudTextField2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "9600", "300", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "38400", "57600", "115200" }));
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,19 +153,27 @@ public class AccGUI extends javax.swing.JFrame {
                         .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(4, 4, 4)
                         .add(jLabel1)
-                        .add(4, 4, 4)
-                        .add(baudTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(baudTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(11, 11, 11)
                         .add(connectButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(disconnectButton)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(startLogButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(stopLogButton)
                 .addContainerGap(263, Short.MAX_VALUE))
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(updateHzText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel5)
+                .addContainerGap(317, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -152,19 +182,24 @@ public class AccGUI extends javax.swing.JFrame {
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(scanButton)
-                    .add(baudTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel1)
                     .add(connectButton)
-                    .add(disconnectButton))
+                    .add(disconnectButton)
+                    .add(baudTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(36, 36, 36)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(logTextfield, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel3))
-                .add(36, 36, 36)
+                .add(18, 18, 18)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel4)
+                    .add(updateHzText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel5))
+                .add(43, 43, 43)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(startLogButton)
                     .add(stopLogButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 135, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 90, Short.MAX_VALUE)
                 .add(jLabel2)
                 .addContainerGap())
         );
@@ -186,9 +221,9 @@ public class AccGUI extends javax.swing.JFrame {
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // TODO add your handling code here:
         String com = comMeny.getSelectedItem().toString();
-        String baud = baudTextField.getText();
+        String baud = baudTextField2.getSelectedItem().toString();
         System.out.println("Connect com:"+com+" baud:"+baud);
-        serialRunner = new SerialRunner(com,baud);
+        serialRunner = new SerialRunner(com,baud,logWriter);
 
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -199,8 +234,8 @@ public class AccGUI extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
-               try {
-         //Set your page url in this string. For eg, I m using URL for Google Search engine
+       try {
+         //URL to be executed by system default browser
          String url = "http://github.com/condac/AccGUI";
          java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
        }
@@ -218,9 +253,25 @@ public class AccGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_logTextfieldActionPerformed
 
+    private void startLogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startLogButtonActionPerformed
+        // TODO add your handling code here:
+        serialRunner.updateHz(Integer.parseInt(updateHzText.getText()));
+        logWriter.newFile();
+    }//GEN-LAST:event_startLogButtonActionPerformed
+
+    private void stopLogButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopLogButtonActionPerformed
+        // TODO add your handling code here:
+        logWriter.closeFile();
+        serialRunner.updateHz(2);
+    }//GEN-LAST:event_stopLogButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
+
+    public void setLastLine(String in) {
+        logTextfield.setText(in);
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -254,17 +305,20 @@ public class AccGUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField baudTextField;
+    private javax.swing.JComboBox baudTextField2;
     private javax.swing.JComboBox comMeny;
     private javax.swing.JButton connectButton;
     private javax.swing.JButton disconnectButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField logTextfield;
     private javax.swing.JButton scanButton;
     private javax.swing.JButton startLogButton;
     private javax.swing.JButton stopLogButton;
+    private javax.swing.JTextField updateHzText;
     // End of variables declaration//GEN-END:variables
 }
