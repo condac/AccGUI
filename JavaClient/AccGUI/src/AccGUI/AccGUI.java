@@ -10,17 +10,36 @@
  */
 package AccGUI;
 
+import gnu.io.CommPortIdentifier;
+import java.util.Enumeration;
+import javax.swing.UIManager;
 /**
  *
- * @author bro
+ * @author Bengt Röjder
  */
 public class AccGUI extends javax.swing.JFrame {
 
     /** Creates new form AccGUI */
     public AccGUI() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch(Exception e){
+            System.out.println("WARNING: Failed to get theme from OS, not important.");
+        }
         initComponents();
     }
+    private void updateComMenu() {
+        //comboBoxReady = false;
+        comMeny.removeAllItems();
+        Enumeration<CommPortIdentifier> e = CommPortIdentifier.getPortIdentifiers();
+        while (e.hasMoreElements()) {
+            comMeny.addItem(e.nextElement().getName());
+        }
+        //comMeny.setSelectedItem(prefs.get(PREF_COM_PORT, ""));
 
+        //comboBoxReady = true;
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -32,8 +51,8 @@ public class AccGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
+        comMeny = new javax.swing.JComboBox();
+        scanButton = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -48,12 +67,12 @@ public class AccGUI extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comMeny.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton2.setText("Scan");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        scanButton.setText("Scan");
+        scanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                scanButtonActionPerformed(evt);
             }
         });
 
@@ -77,9 +96,9 @@ public class AccGUI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .add(17, 17, 17)
-                .add(jButton2)
+                .add(scanButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(4, 4, 4)
                 .add(jLabel1)
                 .add(4, 4, 4)
@@ -90,7 +109,7 @@ public class AccGUI extends javax.swing.JFrame {
                 .add(jButton3)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(295, Short.MAX_VALUE)
                 .add(jLabel2)
                 .addContainerGap())
         );
@@ -99,8 +118,8 @@ public class AccGUI extends javax.swing.JFrame {
             .add(jPanel1Layout.createSequentialGroup()
                 .add(32, 32, 32)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jButton2)
+                    .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(scanButton)
                     .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel1)
                     .add(jButton1)
@@ -131,9 +150,10 @@ public class AccGUI extends javax.swing.JFrame {
         System.out.println("hejhej");
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void scanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scanButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        updateComMenu();
+    }//GEN-LAST:event_scanButtonActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         // TODO add your handling code here:
@@ -183,13 +203,13 @@ public class AccGUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox comMeny;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton scanButton;
     // End of variables declaration//GEN-END:variables
 }
