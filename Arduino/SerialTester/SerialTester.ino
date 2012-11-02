@@ -6,7 +6,8 @@ unsigned long waitTime;
 
 void setup() {
   //Serial.begin(9600);
-  Serial.begin(115200);
+  //Serial.begin(115200);
+  Serial.begin(230400);
   waitTime = 0;
 }
 
@@ -15,8 +16,8 @@ void loop() {
   int a1 = analogRead(A1);
   int a2 = analogRead(A2);
   time = millis();
-  if (time-waitTime > 5) { 
-    waitTime+=5;
+  if (time-waitTime > 10) { 
+    waitTime+=10;
     Serial.print(time);
     Serial.print("\t");
     Serial.print(a0);

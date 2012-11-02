@@ -130,7 +130,7 @@ public class AccGUI extends javax.swing.JFrame {
 
         jLabel5.setText("Hz");
 
-        baudTextField2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "9600", "300", "1200", "2400", "4800", "9600", "14400", "19200", "28800", "38400", "57600", "115200" }));
+        baudTextField2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "9600", "230400", "2400", "4800", "9600", "14400", "19200", "28800", "38400", "57600", "115200" }));
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

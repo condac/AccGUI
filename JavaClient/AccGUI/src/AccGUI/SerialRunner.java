@@ -136,9 +136,9 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
             int c;
             try {
                 while ((c=inputStream.read()) != 10) {
-                   
+                    if (c!=13) { //remove charrage return
                        readBuffer.append((char) c);
-                   
+                    }
                 }
                 try {
                     String data = ""+readBuffer.toString();
