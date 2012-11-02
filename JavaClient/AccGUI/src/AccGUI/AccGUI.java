@@ -19,6 +19,7 @@ import javax.swing.UIManager;
  */
 public class AccGUI extends javax.swing.JFrame {
 
+    SerialRunner serialRunner;
     /** Creates new form AccGUI */
     public AccGUI() {
         try {
@@ -30,7 +31,6 @@ public class AccGUI extends javax.swing.JFrame {
         initComponents();
     }
     private void updateComMenu() {
-        //comboBoxReady = false;
         comMeny.removeAllItems();
         Enumeration<CommPortIdentifier> e = CommPortIdentifier.getPortIdentifiers();
         while (e.hasMoreElements()) {
@@ -38,7 +38,6 @@ public class AccGUI extends javax.swing.JFrame {
         }
         //comMeny.setSelectedItem(prefs.get(PREF_COM_PORT, ""));
 
-        //comboBoxReady = true;
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -50,24 +49,28 @@ public class AccGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        connectButton = new javax.swing.JButton();
         comMeny = new javax.swing.JComboBox();
         scanButton = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        baudTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        disconnectButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        logTextfield = new javax.swing.JTextField();
+        startLogButton = new javax.swing.JButton();
+        stopLogButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Connect");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        connectButton.setText("Connect");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                connectButtonActionPerformed(evt);
             }
         });
 
-        comMeny.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comMeny.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<<-- Hit scan" }));
 
         scanButton.setText("Scan");
         scanButton.addActionListener(new java.awt.event.ActionListener() {
@@ -76,55 +79,92 @@ public class AccGUI extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.setText("9600");
+        baudTextField.setText("9600");
 
         jLabel1.setText("Baud");
 
-        jButton3.setText("Disconnect");
+        disconnectButton.setText("Disconnect");
+        disconnectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disconnectButtonActionPerformed(evt);
+            }
+        });
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 255));
-        jLabel2.setText("https://github.com/condac/AccGUI");
+        jLabel2.setText("http://github.com/condac/AccGUI");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
             }
         });
 
+        jLabel3.setText("Last message:");
+
+        logTextfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logTextfieldActionPerformed(evt);
+            }
+        });
+
+        startLogButton.setText("Start Logging");
+
+        stopLogButton.setText("Stop Logging");
+
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1Layout.createSequentialGroup()
-                .add(17, 17, 17)
-                .add(scanButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(4, 4, 4)
-                .add(jLabel1)
-                .add(4, 4, 4)
-                .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton3)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(295, Short.MAX_VALUE)
+                .addContainerGap(303, Short.MAX_VALUE)
                 .add(jLabel2)
                 .addContainerGap())
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jLabel3)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(logTextfield))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(scanButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(4, 4, 4)
+                        .add(jLabel1)
+                        .add(4, 4, 4)
+                        .add(baudTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(connectButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(disconnectButton)))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(startLogButton)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(stopLogButton)
+                .addContainerGap(263, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
-                .add(32, 32, 32)
+                .add(43, 43, 43)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(scanButton)
-                    .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(baudTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel1)
-                    .add(jButton1)
-                    .add(jButton3))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 244, Short.MAX_VALUE)
+                    .add(connectButton)
+                    .add(disconnectButton))
+                .add(36, 36, 36)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(logTextfield, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel3))
+                .add(36, 36, 36)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(startLogButton)
+                    .add(stopLogButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 135, Short.MAX_VALUE)
                 .add(jLabel2)
                 .addContainerGap())
         );
@@ -133,22 +173,24 @@ public class AccGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(0, 19, Short.MAX_VALUE)
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println("hejhej");
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String com = comMeny.getSelectedItem().toString();
+        String baud = baudTextField.getText();
+        System.out.println("Connect com:"+com+" baud:"+baud);
+        serialRunner = new SerialRunner(com,baud);
+
+    }//GEN-LAST:event_connectButtonActionPerformed
 
     private void scanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scanButtonActionPerformed
         // TODO add your handling code here:
@@ -166,6 +208,15 @@ public class AccGUI extends javax.swing.JFrame {
            System.out.println(e.getMessage());
        }
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
+        // TODO add your handling code here:
+        serialRunner.stop();
+    }//GEN-LAST:event_disconnectButtonActionPerformed
+
+    private void logTextfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logTextfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logTextfieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,13 +254,17 @@ public class AccGUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField baudTextField;
     private javax.swing.JComboBox comMeny;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton connectButton;
+    private javax.swing.JButton disconnectButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField logTextfield;
     private javax.swing.JButton scanButton;
+    private javax.swing.JButton startLogButton;
+    private javax.swing.JButton stopLogButton;
     // End of variables declaration//GEN-END:variables
 }
