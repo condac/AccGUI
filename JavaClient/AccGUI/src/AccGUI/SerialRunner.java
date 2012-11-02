@@ -100,7 +100,7 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
         } catch (InterruptedException e) {}
     }
 
-    public synchronized void serialEvent(SerialPortEvent oEvent) {
+    public synchronized void serialEvent2(SerialPortEvent oEvent) {
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				int available = inputStream.available();
@@ -119,7 +119,7 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
 
-    public void serialEvent2(SerialPortEvent event) {
+    public void serialEvent(SerialPortEvent event) {
         switch(event.getEventType()) {
         case SerialPortEvent.BI:
         case SerialPortEvent.OE:
