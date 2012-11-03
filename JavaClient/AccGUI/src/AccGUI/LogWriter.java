@@ -72,6 +72,7 @@ public class LogWriter {
             }
         }
         else {
+            accGUI.drawRealtime(in);
             if ((System.currentTimeMillis()-timedelay)>1000) {
                 accGUI.setLastLine(in);
                 timedelay = System.currentTimeMillis();

@@ -80,8 +80,9 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
  *
  */
     public void run() {
-        try {
-            Thread.sleep(10);
+        //try {
+            //Thread.sleep(10);
+            //Thread.yield();
             while(running) {
                 Thread.yield();
                 if (System.currentTimeMillis()-waitTimer > hzTime) {
@@ -97,7 +98,7 @@ public class SerialRunner implements Runnable, SerialPortEventListener  {
                 }
             }
             //System.out.println("debugrunning");
-        } catch (InterruptedException e) {}
+        //} catch (InterruptedException e) {}
     }
 
     public synchronized void serialEvent2(SerialPortEvent oEvent) {

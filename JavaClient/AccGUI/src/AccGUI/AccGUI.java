@@ -22,6 +22,7 @@ public class AccGUI extends javax.swing.JFrame {
 
     SerialRunner serialRunner;
     LogWriter logWriter = new LogWriter(this);
+    //RealtimePanel realtimePanel = new RealtimePanel();
     
     /** Creates new form AccGUI */
     public AccGUI() {
@@ -136,44 +137,40 @@ public class AccGUI extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(303, Short.MAX_VALUE)
-                .add(jLabel2)
-                .addContainerGap())
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(jLabel3)
+                        .add(jLabel4)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(logTextfield))
-                    .add(jPanel1Layout.createSequentialGroup()
-                        .add(scanButton)
+                        .add(updateHzText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(4, 4, 4)
-                        .add(jLabel1)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(baudTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(11, 11, 11)
-                        .add(connectButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(disconnectButton)))
-                .addContainerGap(15, Short.MAX_VALUE))
-            .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(startLogButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(stopLogButton)
-                .addContainerGap(263, Short.MAX_VALUE))
-            .add(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel4)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(updateHzText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel5)
-                .addContainerGap(317, Short.MAX_VALUE))
+                        .add(jLabel5))
+                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .add(jPanel1Layout.createSequentialGroup()
+                            .add(startLogButton)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(stopLogButton)
+                            .add(74, 74, 74)
+                            .add(jLabel2))
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(jLabel3)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(logTextfield))
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(scanButton)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(comMeny, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 114, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(4, 4, 4)
+                                .add(jLabel1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(baudTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(11, 11, 11)
+                                .add(connectButton)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(disconnectButton)))))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -198,21 +195,22 @@ public class AccGUI extends javax.swing.JFrame {
                 .add(43, 43, 43)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(startLogButton)
-                    .add(stopLogButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 90, Short.MAX_VALUE)
-                .add(jLabel2)
-                .addContainerGap())
+                    .add(stopLogButton)
+                    .add(jLabel2))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -271,6 +269,10 @@ public class AccGUI extends javax.swing.JFrame {
 
     public void setLastLine(String in) {
         logTextfield.setText(in);
+    }
+    public void drawRealtime(String in) {
+        //realtimePanel.insertData(in);
+        
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
