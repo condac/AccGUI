@@ -67,8 +67,8 @@ public class LogWriter {
                 out.write(sout);
                 out.newLine();
             } catch (IOException ex) {
-                Logger.getLogger(LogWriter.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("debug3");
+                //Logger.getLogger(LogWriter.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Warning: File closed");
             }
         }
         else {
