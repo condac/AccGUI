@@ -63,7 +63,7 @@ public class LogWriter {
         if (fileopen) {
             try {
                 long timestamp = System.currentTimeMillis() - starttime;
-                String sout = ""+timestamp+"\tdata:\t"+in;
+                String sout = ""+"\t"+in;
                 out.write(sout);
                 out.newLine();
             } catch (IOException ex) {

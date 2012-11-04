@@ -29,6 +29,7 @@ public class RealtimePanel extends Canvas implements Runnable {
                 super.setSize(400,200);
                 frame = new JFrame("canvas line");
                 frame.getContentPane().add(this);
+                //frame.createBufferStrategy(2);
                 frame.pack();
                 frame.setVisible(true);
                 
@@ -38,12 +39,12 @@ public class RealtimePanel extends Canvas implements Runnable {
 
         @Override
         public void paint(Graphics g) {
-                super.paint(g);
+                //super.paint(g);
                 //System.out.println("repainting");
                 g.setColor(color1);
-                g.fillRect(1, 100-(int) ( (values[1]/valuesMax[1])*100), 20,  (int) ( (values[1]/valuesMax[1])*100) );
+                g.fillRect(0, 100, 20, (int) ( (values[0]/valuesMax[0])*-100)   );
                 g.setColor(color2);
-                g.fillRect(20, 100, 20, (int) ( (values[1]/valuesMax[1])*100)   );
+                g.fillRect(20, 100, 20, (int) ( (values[1]/valuesMax[1])*-100)   );
                 g.setColor(color3);
                 g.fillRect(40, 100, 20, (int) ( (values[2]/valuesMax[2])*-100)   );
                 g.setColor(color4);
