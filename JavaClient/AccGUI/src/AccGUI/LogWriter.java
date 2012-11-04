@@ -41,7 +41,7 @@ public class LogWriter {
         // Using DateFormat format method we can create a string
         // representation of a date with the defined format.
         String reportDate = df.format(today);
-        String filename = "acc_"+reportDate+".log";
+        String filename = "acc_"+reportDate+".dat";
         try {
 
             filestream = new FileWriter(filename);
@@ -63,7 +63,7 @@ public class LogWriter {
         if (fileopen) {
             try {
                 long timestamp = System.currentTimeMillis() - starttime;
-                String sout = ""+"\t"+in;
+                String sout = ""+in;
                 out.write(sout);
                 out.newLine();
             } catch (IOException ex) {

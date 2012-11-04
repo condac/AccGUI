@@ -73,6 +73,21 @@ void setup() {
 
     Serial.print("freq mode:");
     Serial.println(accelgyro.getDLPFMode());
+    
+    
+    /*
+     * FS_SEL | Full Scale Range   | LSB Sensitivity
+ * -------+--------------------+----------------
+ * 0      | +/- 250 degrees/s  | 131 LSB/deg/s
+ * 1      | +/- 500 degrees/s  | 65.5 LSB/deg/s
+ * 2      | +/- 1000 degrees/s | 32.8 LSB/deg/s
+ * 3      | +/- 2000 degrees/s | 16.4 LSB/deg/s
+ */
+    accelgyro.setFullScaleGyroRange(1);
+    
+    accelgyro.resetGyroscopePath();
+    Serial.print("gyro range mode:");
+    Serial.println(accelgyro.getFullScaleGyroRange());
 
     /*set G range
      * 0 = +/- 2g
@@ -80,7 +95,7 @@ void setup() {
      * 2 = +/- 8g
      * 3 = +/- 16g
      */
-    accelgyro.setFullScaleAccelRange(0);
+    accelgyro.setFullScaleAccelRange(1);
     
     // configure Arduino LED for
     pinMode(LED_PIN, OUTPUT);
@@ -93,7 +108,7 @@ void loop() {
     waitTime+=10;
     // read raw accel/gyro measurements from device
     accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-    //temp = accelgyro.getTemperature();
+    //temp = accelgyro.getTemperature(); // Temperature = (raw output/340) + 36.5323.
     
     // these methods (and a few others) are also available
     //accelgyro.getAcceleration(&ax, &ay, &az);
